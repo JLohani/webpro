@@ -1,0 +1,139 @@
+<html>
+<title>ePADD developers guide</title>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<style>
+    .param { display:inline-block; margin: 2px 10px; cursor: hand; padding: 5px 5px; background:black; opacity:0.7;color: white; }
+    .selected-param { border: solid 5px red; font-size:120%; }
+</style>
+
+<body style="margin-left:5%; margin-right: 5%; margin-bottom: 50px;font-family:Hind;sans-serif">
+
+<script>
+"use strict";
+
+//////////// Configuration
+
+var params = ['font', 'color', 'bgcolor', 'weight', 'align', 'line_height', 'line'];
+var params = ['font', 'color', 'bgcolor', 'align'];
+var currentParam = params[0];
+var currentIdx = {}, cssprop = {}, paramDisplayName = {};
+$(params).each(function(i, e) { currentIdx[e] = 0; cssprop[e] = e; paramDisplayName[e] = e;});
+
+cssprop['font'] = 'font-family';
+cssprop['weight'] = 'font-weight';
+cssprop['bgcolor'] = 'background-color';
+cssprop['align'] = 'text-align';
+cssprop['line_height'] = 'line-height';
+cssprop['letter_spacing'] = 'letter-spacing';
+
+paramDisplayName['font'] = 'Font';
+paramDisplayName['color'] = 'Color';
+paramDisplayName['bgcolor'] = 'Background';
+paramDisplayName['line_height'] = 'Line spacing';
+paramDisplayName['letter_spacing'] = 'Letter spacing';
+
+var font = ['Poppins', 'Hind', 'Catamaran', 'Montserrat', 'Roboto', 'Lato', 'Oswald', 'Raleway', 'Ubuntu', 'Arimo', 'Merriweather', 'Dosis', 'Bitter',  'Cabin', 'Lobster', 'Arvo', 'Nunito', 'Asap', 'Merriweather-Sans', 'Pacifico', 'Signika', 'Quicksand', 'Cuprum', 'Vollkorn', 'Play', 'Karla', 'Exo', 'Rokkitt', 'Orbitron', 'Rubik', 'Monda', 'Comfortaa',   'BenchNine'];
+var color = ['black', 'red', 'green', 'blue', 'white', 'gray', 'black'];
+var bgcolor = ['white', 'magenta', 'orange', 'purple', 'gray'];
+var weight = ['100', '200', '400', '800'];
+var align = ['left', 'right', 'center'];
+var line_height = ['0.5em', '1em', '1.5em', '2em', '2.5em', '3em'];
+var letter_spacing = ['0.5px', '1px', '1.5px', '2px', '2.5px', '3px'];
+
+//////////// End configuration
+
+function update_param (param) {
+    var proparray = window[param];
+    var propval = proparray[currentIdx[param]];
+    $('body').css(cssprop[param], propval);
+    $('#' + param).html(paramDisplayName[param] + ': ' + propval + ' (' + (currentIdx[param]+1) + '/' + proparray.length + ")").fadeIn();
+}
+
+function next(param) {
+    var proparray = window[param];
+    currentIdx[param] = (currentIdx[param] + 1) % proparray.length;
+    update_param (param);
+}
+
+function prev(param) {
+    var proparray = window[param];
+    currentIdx[param] = (currentIdx[param] - 1);
+	if (currentIdx[param] < 0)
+        currentIdx[param] = proparray.length - 1;
+    update_param (param);
+}
+
+// can be called with either an event or a string 
+function focus_param(e) { 
+    currentParam = (e.target) ? $(e.target).attr('id') : e;
+	$('.param').removeClass('selected-param'); 
+	$('#' + currentParam).addClass('selected-param'); 
+    return false;
+}
+
+$(document).ready(function() { 
+    $(font).each(function (i, e) { $('head').append('<link href="https://fonts.googleapis.com/css?family=' + e +'" rel="stylesheet" type="text/css"/>'); });
+    $('body').prepend ('<h3 class="param-legend"></h3>');
+    $(params).each(function (i, param) { 
+         $('h3.param-legend').append('<div class="param" id="' + param + '"></div>');  
+    });
+
+    // initialize all the params
+    $(params).each(function (i, param) { update_param(param); });
+    $('.param').click(focus_param);
+    $('#' + params[0]).addClass('selected-param');
+});
+
+$(document).click(function(){ next(currentParam); } );
+
+$(document).keydown(function(event) { 
+    if (event.keyCode == 39) { next(currentParam); }
+    if (event.keyCode == 37) { prev(currentParam); }
+    if (event.keyCode == 66) { currentParam = 'bgcolor';  focus_param (currentParam); } 
+    if (event.keyCode == 70) { currentParam = 'font';  focus_param (currentParam); } 
+    if (event.keyCode == 67) { currentParam = 'color'; focus_param (currentParam); } 
+
+    if (event.keyCode == 75) { next(currentParam); } // k
+    if (event.keyCode == 74) { prev(currentParam); } // j
+    return true;
+});
+</script>
+
+<h1> ePADD Developers guide </h1>
+<h3>Building ePADD</h3>
+<p>
+To be able to make any modifications to ePADD, you need to be able to build ePADD from source code.
+Follow the instructions in README.build.txt to run the do files, which in turn will use ant and maven.
+
+<p>
+Apache and Maven to create a build for yourself.<br/>
+- Ant http://ant.apache.org/<br/>
+- Maven http://maven.apache.org/<br/>
+
+<p>
+
+<h3>Version control</h3>
+You will need to use git.  If you're not familiar with it, here are some recommended resources:<br/>
+<a href="https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control">Online documentation</a> <br/>
+The book <a href="http://shop.oreilly.com/product/0636920022862.do">Version control with git</a> <br/>
+<a href="https://www.udacity.com/course/how-to-use-git-and-github--ud775">Udacity course on git</a>. <br/>
+
+<p>
+Although not strictly necessary, it also helps to be familiar with Linux (<a href="https://www.udacity.com/course/linux-command-line-basics--ud595">Udacity course</a>). Our primary developers tend to work on Mac, so we are not very familiar with development environments on Windows.
+
+<p>
+<h3>IDE</h3>
+If you're making more than trivial modifications in the frontend files (usually the JSP files in epadd/WebContent), you should probably set up an IDE.
+
+We normally use IntelliJ IDEA for ePADD development (<a href="https://www.jetbrains.com/idea/download/">Download link</a>, get the Ultimate edition). Using Eclipse is also possible, but we generally find it slow and buggy compared to IDEA.
+<p>
+It is well worth going through the following resources for IDEA:
+<a href="https://www.jetbrains.com/idea/download/">Download link</a> (Ultimate edition), <a href=" https://www.jetbrains.com/idea/help/creating-and-running-your-first-java-application.html">Getting started</a>, <a href="https://www.jetbrains.com/idea/help/debugging-your-first-java-application.html">Debugging</a>, <a href=" https://www.jetbrains.com/idea/help/keyboard-shortcuts-you-cannot-miss.html
+">Keyboard shortcuts</a>, <a href="http://blog.jetbrains.com/idea/2015/10/intellij-idea-tips-and-tricks/">Tips and tricks</a>
+
+<p>
+
+<h3>Coding guidelines</h3>
+Make sure you follow the coding guidelines in <a href="https://github.com/ePADD/muse/blob/master/doc/developers-guide.txt">muse/doc/coding-guidelines.txt</a>
+
+</body>
