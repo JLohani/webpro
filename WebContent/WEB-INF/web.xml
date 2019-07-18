@@ -9,9 +9,7 @@
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
+
 	</welcome-file-list>
 
 	<servlet>
@@ -78,7 +76,6 @@
 		<url-pattern>/index</url-pattern>
 	</servlet-mapping>
 
-
 	<servlet>
 		<servlet-name>nextpage</servlet-name>
 		<jsp-file>/nextpage.jsp</jsp-file>
@@ -87,7 +84,44 @@
 		<servlet-name>nextpage</servlet-name>
 		<url-pattern>/nextpage</url-pattern>
 	</servlet-mapping>
-<!--
+
+	<servlet>
+		<servlet-name>login</servlet-name>
+		<jsp-file>/login.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>login</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>register</servlet-name>
+		<jsp-file>/register.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>register</servlet-name>
+		<url-pattern>/register</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>style</servlet-name>
+		<jsp-file>/style.css</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>style</servlet-name>
+		<url-pattern>/style</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>lin</servlet-name>
+		<jsp-file>/lin.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>lin</servlet-name>
+		<url-pattern>/lin</url-pattern>
+	</servlet-mapping>
+
+	<!--
 	<servlet>
 		<servlet-name>firstPoint</servlet-name>
 		<jsp-file>/firstPoint.jsp</jsp-file>

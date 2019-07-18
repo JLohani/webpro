@@ -1,9 +1,11 @@
 <%@page contentType="text/html; charset=UTF-8"%>
 <%@page trimDirectiveWhitespaces="true"%>
 <%@page language="java" import="com.sampleapp.myapp.Version"%>
+<%@page language="java" import="com.sampleapp.myapp.Myjava"%>
+<%@ page import="org.joda.time.DateTime" %>
 <%--<%@include file="getArchive.jspf" %>--%>
-<%
-	/*JSPHelper.log.info ("epadd v" + Version.version + " is running");
+
+<%	/*JSPHelper.log.info ("epadd v" + Version.version + " is running");
 	if (ModeConfig.isAppraisalMode())
 	{
 		if (archive != null) {
@@ -20,8 +22,8 @@
 	}
 	else
 		response.sendRedirect("collections");*/
-
 %>
+
 <html>
 <head>
 	<title>Sample app</title>
@@ -29,9 +31,21 @@
 </head>
 <body>
 <p>Sample web-app in JSP/tomcat/Java</p>
-
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-Welcome!!
+
+Welcome!!	<br><br>
+
+<%= new java.util.Date() %>	<br><br>
+
 <button onclick="window.location='nextpage'">Click me</button>
+<br><br>
+
+<button onclick="window.location='login'">Login</button>
+<button onclick="window.location='register'">Register</button>
+
+<br><br>
+<button onclick="window.location='lin'">Add</button>
+
+
 </body>
 </html>
